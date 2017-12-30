@@ -5,7 +5,7 @@
 [Homebridge](https://www.npmjs.com/package/homebridge) plugin for [openHAB2](http://www.openhab.org).
 
 ## Prerequisites
-* [openHAB](http://www.openhab.org)
+* [openHAB2](http://www.openhab.org)
 * [node.js](https://nodejs.org)
 
 ## Installation
