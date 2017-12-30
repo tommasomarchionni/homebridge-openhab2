@@ -59,3 +59,10 @@ Fields:
 * "sitemap" - Sitemap name of your openHAB2 server
 
 Now are enabled only switch items.
+
+## Release notes
+Version 0.0.1
++ First release with only switch items.
+
+Version 0.0.2
++ Refactor and update README.
