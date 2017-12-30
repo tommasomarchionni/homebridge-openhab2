@@ -1,6 +1,6 @@
 {
   "name": "homebridge-openhab2",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A openHAB2 plugin for homekit.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
