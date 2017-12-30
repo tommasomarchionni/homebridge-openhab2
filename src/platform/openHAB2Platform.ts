@@ -1,3 +1,5 @@
+'use strict';
+
 import 'hap-nodejs'
 import { PluginConfigInterface } from '../models/platform/pluginConfigInterface';
 import { HomebridgeInterface } from '../models/homebridge/homebridgeInterface';
@@ -77,7 +79,7 @@ export class OpenHAB2Platform {
         return this.loadAccessories(devices);
       })
       .catch((err) => {
-        this.log("Error getting data from openHAB2: ", err);
+        this.log('Error getting data from openHAB2: ', err);
       });
   }
 
@@ -110,17 +112,17 @@ export class OpenHAB2Platform {
   // Function invoked when homebridge tries to restore cached accessory
   // Developer can configure accessory at here (like setup event handler)
   configureAccessory(platformAccessory: PlatformAccessoryInterface) {
-    this.log(platformAccessory.displayName, "Configure Accessory");
+    this.log(platformAccessory.displayName, 'Configure Accessory');
     platformAccessory.reachable = false;
 
     // If uniqueseed property not exists remove accessory;
     if (platformAccessory.context && !platformAccessory.context.uniqueSeed) {
-      this.log(platformAccessory.displayName, "Accessory not valid");
+      this.log(platformAccessory.displayName, 'Accessory not valid');
       return;
     }
 
     this.accessories.set(platformAccessory.context.uniqueSeed, {platformAccessory: platformAccessory});
-    this.log(platformAccessory.displayName, "Accessory added");
+    this.log(platformAccessory.displayName, 'Accessory added');
   }
 
   //Handler will be invoked when user try to config your plugin
@@ -238,12 +240,12 @@ export class OpenHAB2Platform {
 
     // Register or update platform accessory
     openHABAccessory.registerUpdateAccessory(isNewAccessory, OpenHAB2Platform.homebridge);
-    this.log("Added/changed accessory: ", openHABAccessory.name);
+    this.log(`Added/changed accessory ${openHABAccessory.displayName}`);
   }
 
   // Remove accessory
   removeAccessory(platformAccessory: PlatformAccessoryInterface) {
-    this.log('Remove accessory', platformAccessory.displayName);
+    this.log(`Remove accessory ${platformAccessory.displayName}`);
     OpenHAB2Platform.homebridge.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [platformAccessory]);
     this.accessories.delete(platformAccessory.context.uniqueSeed);
   }

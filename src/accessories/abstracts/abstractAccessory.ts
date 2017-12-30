@@ -8,9 +8,7 @@ import { OpenHAB2DeviceInterface } from '../../models/platform/openHAB2DeviceInt
 export abstract class AbstractAccessory {
   displayName: string;
   context: any;
-  reachable: boolean;
   name: string;
-  roomID: string;
   accessory: any;
   hapAccessory: any;
   hapService: any;
@@ -24,7 +22,7 @@ export abstract class AbstractAccessory {
   otherService: Service;
   device: OpenHAB2DeviceInterface;
   setInitialState = false;
-  setFromOpenHAB = false;
+  setFromOpenHAB2 = false;
   state: string;
 
   constructor(
@@ -49,7 +47,7 @@ export abstract class AbstractAccessory {
 
   // TODO handle identify for accessory
   //newAccessory.on('identify', (paired, callback) => {
-  //     this.log(newAccessory.displayName, "Identify!!!");
+  //     this.log(newAccessory.displayName, 'Identify!!!');
   //     callback();
   //   });
 

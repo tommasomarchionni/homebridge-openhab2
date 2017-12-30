@@ -1,3 +1,5 @@
+'use strict';
+
 import { OpenHAB2DeviceInterface } from './openHAB2DeviceInterface';
 
 export interface OpenHAB2EventInterface {

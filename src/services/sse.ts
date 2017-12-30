@@ -3,7 +3,7 @@
 import 'hap-nodejs';
 import * as EventSource from 'eventsource'
 import { OpenHAB2EventInterface } from '../models/platform/openHAB2EventInterface';
-import { OpenHAB2Platform } from "../platform/openHAB2Platform";
+import { OpenHAB2Platform } from '../platform/openHAB2Platform';
 import Service = HAPNodeJS.Service;
 import Characteristic = HAPNodeJS.Characteristic;
 import { OpenHAB2DeviceInterface } from '../models/platform/openHAB2DeviceInterface';
@@ -34,7 +34,7 @@ export class Sse {
           .getSitemapEventsUrl()
           .then(this.addEventListener.bind(this))
           .catch(() => {
-            reject("Error fetching event url");
+            reject('Error fetching event url');
           })
       }
     });
@@ -54,7 +54,7 @@ export class Sse {
 
     es.onerror = (err) => {
       if (err) {
-        this.platform.log("Error fetching updates: ", err);
+        this.platform.log('Error fetching updates: ', err);
       }
     };
   }

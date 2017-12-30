@@ -1,3 +1,5 @@
+'use strict';
+
 export interface OpenHAB2SitemapEventSubscriptionInterface {
   status: string,       // "CREATED"
   context: OpenHAB2SitemapEventSubscriptionContextInterface

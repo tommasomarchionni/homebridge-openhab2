@@ -1,3 +1,5 @@
+'use strict';
+
 import { PlatformAccessoryInterface } from './platformAccessoryInterface';
 import hap = HAPNodeJS.HAPNodeJS;
 

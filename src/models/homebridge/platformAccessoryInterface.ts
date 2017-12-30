@@ -1,3 +1,5 @@
+'use strict';
+
 import 'hap-nodejs';
 import Service = HAPNodeJS.Service;
 

@@ -13,7 +13,7 @@ export class AccessoryFactory {
   // TODO create accessory based on tag
   static createAccessory(device: OpenHAB2DeviceInterface, hapAccessory, hapService, hapCharacteristic, platform: OpenHAB2Platform) {
     switch(device.type) {
-      case "Switch":
+      case 'Switch':
         return new SwitchAccessory(device, hapAccessory, hapService, hapCharacteristic, platform);
       default:
         throw new Error('Device not supported!');

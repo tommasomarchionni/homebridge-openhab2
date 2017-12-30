@@ -1,3 +1,5 @@
+'use strict';
+
 export interface OpenHAB2DeviceInterface {
   link?: string;
   state: string;

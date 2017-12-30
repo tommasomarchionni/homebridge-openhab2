@@ -1,3 +1,5 @@
+'use strict';
+
 export interface PluginConfigInterface {
   host: string;
   port: string;

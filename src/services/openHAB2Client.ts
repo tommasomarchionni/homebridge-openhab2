@@ -1,7 +1,7 @@
 'use strict';
 
 import request = require('request');
-import { OpenHAB2DeviceInterface } from "../models/platform/openHAB2DeviceInterface";
+import { OpenHAB2DeviceInterface } from '../models/platform/openHAB2DeviceInterface';
 import { OpenHAB2SitemapEventSubscriptionInterface } from '../models/platform/openHAB2SitemapEventSubscriptionInterface';
 
 export class OpenHAB2Client {
@@ -34,7 +34,7 @@ export class OpenHAB2Client {
       request.post({
         url: url,
         json: true,
-        headers : {"Accept": "application/json"},
+        headers : { Accept: 'application/json'},
       }, function(err, response, json) {
         if (!err && response.statusCode == 200)
           resolve(json);
@@ -49,7 +49,7 @@ export class OpenHAB2Client {
       const url = `http://${this.host}:${this.port}/rest/items?recursive=false`;
       request.get({
         url: url,
-        headers : {"Accept": "application/json"},
+        headers : { Accept: 'application/json'},
         json: true
       }, function(err, response, json) {
         if (!err && response.statusCode == 200)
@@ -65,7 +65,7 @@ export class OpenHAB2Client {
       const url = `http://${this.host}:${this.port}/rest/items/${id}`;
       request.get({
         url: url,
-        headers : {"Accept": "application/json"},
+        headers : { Accept: 'application/json'},
         json: true
       }, function(err, response, json) {
         if (!err && response.statusCode == 200)
@@ -76,15 +76,14 @@ export class OpenHAB2Client {
     });
   }
 
+  // TODO handle param
   executeDeviceAction(ID: string, action: string, param?: any) {
     return new Promise((resolve, reject) => {
-      let url = `http://${this.host}:${this.port}/rest/items/${ID}`;
-      let body = action;
-      let method = "post";
+      const url = `http://${this.host}:${this.port}/rest/items/${ID}`;
       request({
         url: url,
-        body: body,
-        method: method
+        body: action,
+        method: 'post'
       }, function(err, response) {
         if (!err && (response.statusCode == 200 || response.statusCode == 202))
           resolve(response);

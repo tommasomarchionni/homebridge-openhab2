@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 import { AbstractAccessory } from './abstracts/abstractAccessory';
 import { OpenHAB2DeviceInterface } from '../models/platform/openHAB2DeviceInterface';
@@ -14,26 +14,26 @@ export class SwitchAccessory extends AbstractAccessory {
       .setValue(this.state === 'ON');
   };
 
-  updateCharacteristics(message) {
-    this.setFromOpenHAB = true;
-
+  updateCharacteristics(message: string) {
+    this.setFromOpenHAB2 = true;
+    this.platform.log(`OpenHAB2 SSE - message '${message}' from ${this.displayName}`);
     this.otherService
       .getCharacteristic(this.hapCharacteristic.On)
       .setValue(message === 'ON', () => {
-          this.setFromOpenHAB = false;
+          this.setFromOpenHAB2 = false;
         }
       );
   };
 
   getItemState(callback) {
-    this.platform.log("iOS - request power state from " + this.name);
+    this.platform.log(`iOS - request power state from ${this.displayName}`);
     this.platform.openHAB2Client.getDeviceProperties(this.name)
       .then((device: OpenHAB2DeviceInterface) => {
-        this.platform.log("OpenHAB HTTP - response from " + device.label + ": " + device.state);
-        callback(undefined, device.state === "ON");
+        this.platform.log(`OpenHAB2 HTTP - response from ${this.displayName}: ${device.state}`);
+        callback(undefined, device.state === 'ON');
       })
       .catch((err) => {
-        this.platform.log("OpenHAB HTTP - error from " + this.name, err);
+        this.platform.log(`OpenHAB2 HTTP - error from ${this.displayName}`, err);
       });
   };
 
@@ -44,20 +44,20 @@ export class SwitchAccessory extends AbstractAccessory {
       return;
     }
 
-    if (this.setFromOpenHAB) {
+    if (this.setFromOpenHAB2) {
       callback();
       return;
     }
 
-    this.platform.log("iOS - send message to " + this.name + ": " + value);
+    this.platform.log(`iOS - send message to ${this.displayName}: ${value}`);
     const command = value ? 'ON' : 'OFF';
 
     this.platform.openHAB2Client.executeDeviceAction(this.name, command)
-      .then((response) => {
-        this.platform.log("OpenHAB HTTP - response from " + this.name + ": completed.");
+      .then(() => {
+        this.platform.log(`OpenHAB2 HTTP - response from ${this.displayName}: completed.`);
       })
       .catch((err) => {
-        this.platform.log("OpenHAB HTTP - error from " + this.name, err);
+        this.platform.log(`OpenHAB2 HTTP - error from ${this.displayName}`, err);
       })
       .then(() => callback());
   };
