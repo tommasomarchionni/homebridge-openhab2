@@ -1,0 +1,59 @@
+{
+  "name": "homebridge-openhab2",
+  "version": "0.0.1",
+  "description": "A openHAB2 plugin for homekit.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "mocha -r ts-node/register spec/**.spec.ts spec/**/**.spec.ts --require spec/prepare",
+    "prepare": "tsc",
+    "start": "echo \"Error: configure and run homebridge to start\" && exit 1"
+  },
+  "engines": {
+    "node": ">7.0.0",
+    "homebridge": ">=0.4.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tommasomarchionni/homebridge-openhab2.git"
+  },
+  "keywords": [
+    "homebridge-plugin",
+    "openHAB2",
+    "homekit",
+    "z-wave",
+    "Siri"
+  ],
+  "dependencies": {
+    "atmosphere.js": "^2.3.3",
+    "chai-as-promised": "^7.1.1",
+    "eventsource": "^1.0.5",
+    "hap-nodejs": "0.4.36",
+    "node-gyp": "^3.6.2",
+    "request": "^2.65.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.0.10",
+    "@types/mocha": "^2.2.45",
+    "body-parser": "^1.18.2",
+    "chai": "^4.1.2",
+    "chai-things": "^0.2.0",
+    "express": "^4.13.3",
+    "express-sse": "^0.4.1",
+    "homebridge": "^0.4.33",
+    "mocha": "^4.0.1",
+    "mocha-prepare": "^0.1.0",
+    "ts-node": "^4.1.0",
+    "typescript": "^2.6.2"
+  },
+  "bugs": {
+    "url": "https://github.com/tommasomarchionni/homebridge-openhab2.git/issues"
+  },
+  "homepage": "https://github.com/tommasomarchionni/homebridge-openhab2.git",
+  "license": "ISC",
+  "author": {
+    "name": "Tommaso Marchionni",
+    "email": "tommaso.marchionni@gmail.com"
+  },
+  "preferGlobal": true
+}
