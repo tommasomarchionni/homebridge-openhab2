@@ -2,7 +2,7 @@
 
 import request = require('request');
 import { OpenHAB2DeviceInterface } from "../models/platform/openHAB2DeviceInterface";
-import { OpenHAB2SitemapEventSubscriptionInterface } from '../models/platform/OpenHAB2SitemapEventSubscriptionInterface';
+import { OpenHAB2SitemapEventSubscriptionInterface } from '../models/platform/openHAB2SitemapEventSubscriptionInterface';
 
 export class OpenHAB2Client {
 
