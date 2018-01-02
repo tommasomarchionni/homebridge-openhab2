@@ -7,10 +7,9 @@ const sse = new SSE();
 export class OpenHAB2Mock {
 
   private _server: any;
+  private _sitemap: string;
+  private _pageId: string;
   private _itemState = "ON";
-  private _sitemap = "home";
-  private _pageId = "home";
-  private _port = "32124";
 
   getItem(withLink?: boolean) {
     const item = {
@@ -71,8 +70,17 @@ export class OpenHAB2Mock {
     }
   }
 
-  constructor() {
-    // Fire up fake API server
+  // Fire up fake API server
+  constructor(listenPort: string, sitemap: string, pageId: string) {
+
+    // Set the listen port
+    this._port = listenPort;
+
+    // Set sitemap
+    this._sitemap = sitemap;
+
+    // Set pageId
+    this._pageId = pageId;
 
     // app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.text());
@@ -108,8 +116,18 @@ export class OpenHAB2Mock {
     // curl -X GET --header "Accept: text/event-stream" "http://localhost:{port}/rest/sitemaps/events/27ba1bfe-906d-4116-a54b-4c5c4e253651"
     // Stream event
     app.get('/rest/sitemaps/events/27ba1bfe-906d-4116-a54b-4c5c4e253651', sse.init);
+  }
 
+  listen() {
     this._server = app.listen(this._port);
+  }
+
+  close() {
+    this._server.close();
+  }
+
+  reset() {
+    this._itemState = "ON";
   }
 
   get server() {

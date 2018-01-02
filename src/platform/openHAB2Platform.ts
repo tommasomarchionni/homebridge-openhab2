@@ -45,6 +45,9 @@ export class OpenHAB2Platform {
   ) {
 
     if (api) {
+
+      log('homebridge API version: ' + api.version);
+
       // Save the API object as plugin needs to register new accessory via this object.
       OpenHAB2Platform.init(api);
 
@@ -103,7 +106,7 @@ export class OpenHAB2Platform {
     }
 
     // Subscribe to stream events
-    this.sse.subscribe()
+    return this.sse.subscribe()
       .catch((err) => {
         throw new Error(err);
       });

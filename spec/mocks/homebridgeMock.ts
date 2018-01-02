@@ -12,7 +12,9 @@ export class HomebridgeMock {
     this._config = config;
   }
 
-  static fakeConsole(...params) {}
+  static fakeConsole(...params) {
+    // console.log(...params);
+  }
 
   registerPlatform(pluginName, platformName, constructor, dynamic) {
     this._platform = new constructor(HomebridgeMock.fakeConsole, this._config, this._api);

@@ -1,6 +1,9 @@
 import { HomebridgeMock } from '../mocks/homebridgeMock';
 import { OpenHAB2Client } from '../../src/services/openHAB2Client';
 import { Sse } from '../../src/services/sse';
+import { OpenHAB2Mock } from '../mocks/openHAB2Mock';
+import { AccessoryFactory } from '../../src/services/accessoryFactory';
+import { OpenHAB2DeviceInterface } from '../../src/models/platform/openHAB2DeviceInterface';
 
 // Set up test environment
 const chai = require('chai');
@@ -8,25 +11,35 @@ const chai = require('chai');
 // Chai Things adds support to Chai for assertions on array elements.
 chai.use(require('chai-things'));
 
-// Chai as Promised extends Chai with a fluent language for asserting facts about promises.
-chai.use(require('chai-as-promised'));
-
 const expect = chai.expect;
 
 // Get config
 let config = require('../../config.json');
 
-// Get mocked homebridge
-const homebridge = new HomebridgeMock(config.platforms[0]);
+// Get mocked openHAB
+const mockedOpenHAB2 = new OpenHAB2Mock(config.platforms[0].port, config.platforms[0].sitemap, config.platforms[0].sitemap);
 
-// Get mocked accessory
-const mockedAccessory = homebridge.getMockedPlatformAccessory();
-
-// Start Plugin
-const plugin = require('../../src/index');
-plugin(homebridge);
+// Vars for mocked homebridge and accessory
+let homebridge, mockedAccessory;
 
 describe("openHAB2 Platform", () => {
+
+  beforeEach(function(){
+    mockedOpenHAB2.reset();
+
+    mockedOpenHAB2.listen();
+
+    // Set mocked homebridge
+    homebridge = new HomebridgeMock(config.platforms[0]);
+
+    // Set mocked accessory
+    mockedAccessory = homebridge.getMockedPlatformAccessory();
+
+    // Start Plugin
+    const plugin = require('../../src/index');
+    plugin(homebridge);
+  });
+
   describe("constructor", () => {
     it("should have a log", () => {
       expect(homebridge.platform.log).to.equal(HomebridgeMock.fakeConsole);
@@ -64,6 +77,9 @@ describe("openHAB2 Platform", () => {
 
   describe("removeAccessory", () => {
     it("should have 0 accessories", () => {
+      expect(homebridge.platform.accessories.size).to.equal(0);
+      homebridge.platform.configureAccessory(mockedAccessory);
+      expect(homebridge.platform.accessories.size).to.equal(1);
       homebridge.platform.removeAccessory(mockedAccessory);
       expect(homebridge.platform.accessories.size).to.equal(0);
     });
@@ -71,12 +87,36 @@ describe("openHAB2 Platform", () => {
 
   describe("didFinishLaunching", () => {
 
-    it("should run correctly", () => {
-      return expect(homebridge.platform.didFinishLaunching()).be.fulfilled;
+    it("should have 1 accessory", (done) => {
+      homebridge.platform.didFinishLaunching().then(() => {
+        expect(homebridge.platform.accessories.size).to.equal(1);
+        done();
+      })
     });
+  });
 
-    it("should have 1 accessory", () => {
-      expect(homebridge.platform.accessories.size).to.equal(1);
+  describe("addAccessory", () => {
+    it("should have 1 accessory", (done) => {
+      const openHAB2Client = new OpenHAB2Client(
+        config.platforms[0].host,
+        config.platforms[0].port,
+        config.platforms[0].username,
+        config.platforms[0].password,
+        config.platforms[0].sitemap,
+        HomebridgeMock.fakeConsole
+      );
+      openHAB2Client.getDevices()
+        .then((devices: OpenHAB2DeviceInterface[]) => {
+          if (devices.length > 0) {
+            expect(homebridge.platform.accessories.size).to.equal(0);
+            const openHAB2Accessory = AccessoryFactory.createAccessory(
+              devices[0], homebridge.platform.constructor.accessory, homebridge.platform.constructor.service, homebridge.platform.constructor.characteristic, this
+            );
+            homebridge.platform.addAccessory(openHAB2Accessory);
+            expect(homebridge.platform.accessories.size).to.equal(1);
+            done();
+          }
+        });
     });
   });
 
@@ -122,4 +162,8 @@ describe("openHAB2 Platform", () => {
   //     my.setPowerState(false, function(err, val) { expect(err).to.equal(undefined); expect(val).to.equal("0"); done(); });
   //   });
   // });
+
+  afterEach(function(){
+    mockedOpenHAB2.close();
+  });
 });

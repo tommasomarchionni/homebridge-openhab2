@@ -13,6 +13,7 @@ export class Sse {
   isSubscribed: boolean;
   hapService: Service;
   hapCharacteristic: Characteristic;
+  _es: EventSource;
 
   constructor(
     platform: OpenHAB2Platform,
@@ -32,7 +33,10 @@ export class Sse {
         this.isSubscribed = true;
         this.platform.openHAB2Client
           .getSitemapEventsUrl()
-          .then(this.addEventListener.bind(this))
+          .then((url) => {
+            this.addEventListener(url);
+            resolve('')
+          })
           .catch(() => {
             reject('Error fetching event url');
           })
@@ -40,19 +44,23 @@ export class Sse {
     });
   }
 
+  close() {
+    this._es.close();
+  }
+
   // Add event listener
   addEventListener(url: string) {
-    const es = new EventSource(url);
-    es.addEventListener('event', (e) => {
+    this._es = new EventSource(url);
+    this._es.addEventListener('event', (event) => {
       try {
-        const change = <OpenHAB2EventInterface>JSON.parse(e.data);
+        const change = <OpenHAB2EventInterface>JSON.parse(event.data);
         this.manageValue(change.item);
       } catch (e) {
-        es.onerror(e);
+        this._es.onerror(e);
       }
     });
 
-    es.onerror = (err) => {
+    this._es.onerror = (err) => {
       if (err) {
         this.platform.log('Error fetching updates: ', err);
       }
@@ -61,6 +69,7 @@ export class Sse {
 
   // Update value
   manageValue(device: OpenHAB2DeviceInterface) {
+
     const accessory:any = this.platform.accessories.get(device.name);
     if (accessory && accessory.openHABAccessory) {
       accessory.openHABAccessory.updateCharacteristics(device.state)

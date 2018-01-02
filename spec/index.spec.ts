@@ -2,6 +2,7 @@ import { HomebridgeMock } from './mocks/homebridgeMock';
 
 // Set up test environment
 const chai = require('chai');
+
 //Chai Things adds support to Chai for assertions on array elements.
 chai.use(require('chai-things'));
 const expect = chai.expect;

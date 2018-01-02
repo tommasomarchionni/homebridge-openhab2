@@ -20,6 +20,7 @@ export class SwitchAccessory extends AbstractAccessory {
     this.otherService
       .getCharacteristic(this.hapCharacteristic.On)
       .setValue(message === 'ON', () => {
+          this.state = message;
           this.setFromOpenHAB2 = false;
         }
       );
@@ -34,6 +35,7 @@ export class SwitchAccessory extends AbstractAccessory {
       })
       .catch((err) => {
         this.platform.log(`OpenHAB2 HTTP - error from ${this.displayName}`, err);
+        callback('');
       });
   };
 

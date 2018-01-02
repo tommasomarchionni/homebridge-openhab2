@@ -5,7 +5,6 @@ import { PLATFORM_NAME, PLUGIN_NAME } from './config';
 import { HomebridgeInterface } from './models/homebridge/homebridgeInterface';
 
 export = (homebridge: HomebridgeInterface) => {
-  console.log('homebridge API version: ' + homebridge.version);
   // TODO check old homebridge version
   // if (homebridge.version < 2) openHAB2Platform.init(homebridge);
 
