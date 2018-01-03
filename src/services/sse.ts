@@ -13,7 +13,7 @@ export class Sse {
   isSubscribed: boolean;
   hapService: Service;
   hapCharacteristic: Characteristic;
-  _es: EventSource;
+  es: EventSource;
 
   constructor(
     platform: OpenHAB2Platform,
@@ -45,22 +45,22 @@ export class Sse {
   }
 
   close() {
-    this._es.close();
+    this.es.close();
   }
 
   // Add event listener
   addEventListener(url: string) {
-    this._es = new EventSource(url);
-    this._es.addEventListener('event', (event) => {
+    this.es = new EventSource(url);
+    this.es.addEventListener('event', (event) => {
       try {
         const change = <OpenHAB2EventInterface>JSON.parse(event.data);
         this.manageValue(change.item);
       } catch (e) {
-        this._es.onerror(e);
+        this.es.onerror(e);
       }
     });
 
-    this._es.onerror = (err) => {
+    this.es.onerror = (err) => {
       if (err) {
         this.platform.log('Error fetching updates: ', err);
       }
@@ -68,11 +68,11 @@ export class Sse {
   }
 
   // Update value
-  manageValue(device: OpenHAB2DeviceInterface) {
-
+  manageValue(device: OpenHAB2DeviceInterface): Promise<string> {
     const accessory:any = this.platform.accessories.get(device.name);
     if (accessory && accessory.openHABAccessory) {
-      accessory.openHABAccessory.updateCharacteristics(device.state)
+      return accessory.openHABAccessory.updateCharacteristics(device.state)
     }
+    return Promise.reject('accessory not found');
   }
 }

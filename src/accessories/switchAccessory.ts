@@ -15,15 +15,19 @@ export class SwitchAccessory extends AbstractAccessory {
   };
 
   updateCharacteristics(message: string) {
-    this.setFromOpenHAB2 = true;
-    this.platform.log(`OpenHAB2 SSE - message '${message}' from ${this.displayName}`);
-    this.otherService
-      .getCharacteristic(this.hapCharacteristic.On)
-      .setValue(message === 'ON', () => {
+    return new Promise((resolve, reject) => {
+      this.setFromOpenHAB2 = true;
+      this.platform.log(`OpenHAB2 SSE - message '${message}' from ${this.displayName}`);
+      this.otherService
+        .getCharacteristic(this.hapCharacteristic.On)
+        .setValue(message === 'ON', () => {
           this.state = message;
-          this.setFromOpenHAB2 = false;
-        }
-      );
+            this.setFromOpenHAB2 = false;
+            resolve(message);
+          }
+        );
+    });
+
   };
 
   getItemState(callback) {

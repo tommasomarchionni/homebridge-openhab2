@@ -1,6 +1,9 @@
 import { HomebridgeMock } from '../mocks/homebridgeMock';
 import { OpenHAB2Mock } from '../mocks/openHAB2Mock';
 import { setTimeout } from 'timers';
+import { Sse } from '../../src/services/sse';
+import * as EventSource from 'eventsource'
+import { SwitchAccessory } from '../../src/accessories/switchAccessory';
 const request = require('request');
 
 // Set up test environment
@@ -57,10 +60,44 @@ describe("openHAB2 Services", () => {
           });
         })
     });
+    it("should correctly add event listener", (done) => {
+      const sse = new Sse(homebridge.platform, homebridge.platform.service, homebridge.platform.characteristic);
+      homebridge.platform.openHAB2Client
+        .getSitemapEventsUrl()
+        .then((url) => {
+          sse.addEventListener(url);
+          expect(sse.es).to.be.an.instanceof(EventSource);
+          done()
+        })
+    });
+    it("should correctly manage value", (done) => {
+      homebridge.platform.didFinishLaunching()
+        .then(() => {
+          const sse = new Sse(homebridge.platform, homebridge.platform.service, homebridge.platform.characteristic);
+          let device = {
+            state: 'OFF',
+            type: 'Switch',
+            name: 'Kitchen_Light',
+            label: 'Kitchen Light',
+            category: 'light',
+            tags: [ 'Lighting' ],
+            groupNames: [ 'Kitchen', 'Lights' ]
+          };
+          sse.manageValue(device).then(() => {
+            let accessory = <SwitchAccessory>homebridge.platform.accessories.get(device.name).openHABAccessory;
+            expect(accessory.state).to.equal(device.state);
+            device.state = "ON";
+            sse.manageValue(device).then(() => {
+              accessory = <SwitchAccessory>homebridge.platform.accessories.get(device.name).openHABAccessory;
+              expect(accessory.state).to.equal(device.state);
+              done();
+            });
+          })
+        });
+    })
   });
 
-  afterEach(function(){
-    homebridge.platform.sse.close();
-    mockedOpenHAB2.close();
+  afterEach(function(done){
+    mockedOpenHAB2.server.close(done());
   });
 });

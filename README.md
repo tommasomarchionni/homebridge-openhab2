@@ -19,7 +19,7 @@
   
 * This plugin is published through [NPM](https://www.npmjs.com/package/homebridge-openhab2) and should be installed "globally" by typing:
  
-  `npm install -g homebridge-openhab2`
+  `npm install -g homebridge-openhab2` or if you have issues `npm install -g --unsafe-perm homebridge-openhab2`
 
 * Update your config.json file (usually is in your home/.homebridge/ directory, if you can't find, follow the instruction in [homebridge](https://www.npmjs.com/package/homebridge)). See config.json in this repository for a sample.
 

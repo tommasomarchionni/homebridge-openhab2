@@ -23,7 +23,7 @@ export class OpenHAB2Platform {
 
   log: (...string) => void;
   config: PluginConfigInterface;
-  accessories: Map<string, {platformAccessory: any, openHABAccessory?: AbstractAccessory}>;
+  accessories: Map<string, {platformAccessory: PlatformAccessoryInterface, openHABAccessory?: AbstractAccessory}>;
   openHAB2Client: OpenHAB2Client;
   sse: Sse;
 

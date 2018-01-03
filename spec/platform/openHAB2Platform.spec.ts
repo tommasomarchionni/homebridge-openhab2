@@ -163,7 +163,7 @@ describe("openHAB2 Platform", () => {
   //   });
   // });
 
-  afterEach(function(){
-    mockedOpenHAB2.close();
+  afterEach(function(done){
+    mockedOpenHAB2.server.close(done);
   });
 });
