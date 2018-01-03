@@ -4,6 +4,9 @@ node_js:
   - "lts/*"
   - "8"
   - "7"
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y libnss-mdns libavahi-compat-libdnssd-dev
 cache:
   directories:
     - "node_modules"  
