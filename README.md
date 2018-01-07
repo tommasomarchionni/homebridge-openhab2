@@ -129,5 +129,5 @@ Version 0.0.6
 + Updated README.
 + Refactor contexts in accessories.
 
-Version 0.0.7
+Version 0.0.8
 + Updated deploy to npm.

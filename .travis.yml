@@ -25,8 +25,10 @@ jobs:
       script: echo "Deploying to npm ..."
       deploy:
         provider: npm
+        skip_cleanup: true
         email: "tommaso.marchionni@gmail.com"
         api_key: $NPM_TOKEN
         on:
           tags: true
           repo: tommasomarchionni/homebridge-openhab2
+          all_branches: true
