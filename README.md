@@ -128,3 +128,6 @@ Version 0.0.6
 + Added Dimmable tag mapped to Lightbulb HomeKit type.
 + Updated README.
 + Refactor contexts in accessories.
+
+Version 0.0.7
++ Updated deploy to npm.
