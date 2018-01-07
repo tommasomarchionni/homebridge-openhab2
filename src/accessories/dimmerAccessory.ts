@@ -118,6 +118,5 @@ export class DimmerAccessory extends AbstractAccessory {
         this.platform.log(`OpenHAB2 HTTP - error from <${this.name}>:`, err);
       })
       .then(() => callback());
-
   };
 }
