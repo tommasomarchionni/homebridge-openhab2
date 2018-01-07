@@ -2,16 +2,17 @@
 
 import { AbstractAccessory } from './abstracts/abstractAccessory';
 import { OpenHAB2DeviceInterface } from '../models/platform/openHAB2DeviceInterface';
+import { Deferred } from 'ts-deferred';
 
 export class SwitchAccessory extends AbstractAccessory {
 
   setOtherServices() {
     this.otherService = this.getService(this.hapService.Switch, this.displayName);
 
-    this.otherService.getCharacteristic(this.hapCharacteristic.On)
-      .on('set', this.setItemState.bind(this))
-      .on('get', this.getItemState.bind(this))
-      .setValue(this.state === 'ON');
+    this.getCharacteristic(this.hapCharacteristic.On, this.otherService)
+      .on('set', this.setItemPowerState.bind(this))
+      .on('get', this.getItemPowerState.bind(this))
+      .setValue(this.state === 'ON', () => {}, 'init');
   };
 
   static isValid(device) {
@@ -19,22 +20,19 @@ export class SwitchAccessory extends AbstractAccessory {
   }
 
   updateCharacteristics(message: string) {
-    return new Promise((resolve, reject) => {
-      this.setFromOpenHAB2 = true;
-      this.platform.log(`OpenHAB2 SSE - message '${message}' from ${this.displayName}`);
-      this.otherService
-        .getCharacteristic(this.hapCharacteristic.On)
-        .setValue(message === 'ON', () => {
-            this.state = message;
-            this.setFromOpenHAB2 = false;
-            resolve(message);
-          }
-        );
-    });
+    let characteristicOnDeferred: Deferred<string> = new Deferred<string>();
+    let characteristicsUpdated : [Promise<string>] = [characteristicOnDeferred.promise];
 
+    this.getCharacteristic(this.hapCharacteristic.On, this.otherService)
+      .setValue(message === 'ON', () => {
+        this.state = message;
+        characteristicOnDeferred.resolve(message);
+      }, 'remote');
+
+    return Promise.all<string>(characteristicsUpdated);
   };
 
-  getItemState(callback) {
+  getItemPowerState(callback) {
     this.platform.log(`iOS - request power state from ${this.displayName}`);
     this.platform.openHAB2Client.getDeviceProperties(this.name)
       .then((device: OpenHAB2DeviceInterface) => {
@@ -57,17 +55,12 @@ export class SwitchAccessory extends AbstractAccessory {
       });
   };
 
-  setItemState(value, callback) {
-    if (this.setInitialState) {
-      this.setInitialState = false;
-      callback();
+  setItemPowerState(value: string, callback: Function, context: string) {
+    if (context === 'remote' || context === 'init') {
+      callback(null);
       return;
     }
 
-    if (this.setFromOpenHAB2) {
-      callback();
-      return;
-    }
     let command = value ? 'ON' : 'OFF';
 
     // Handles Dimmer item casted to Switchable

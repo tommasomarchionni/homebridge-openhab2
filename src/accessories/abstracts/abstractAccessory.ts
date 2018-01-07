@@ -2,6 +2,7 @@
 
 import 'hap-nodejs';
 import Service = HAPNodeJS.Service;
+import Characteristic = HAPNodeJS.Characteristic;
 import { PLATFORM_NAME, PLUGIN_NAME } from '../../config';
 import { OpenHAB2DeviceInterface } from '../../models/platform/openHAB2DeviceInterface';
 
@@ -22,7 +23,6 @@ export abstract class AbstractAccessory {
   otherService: Service;
   device: OpenHAB2DeviceInterface;
   setInitialState = false;
-  setFromOpenHAB2 = false;
   state: string;
 
   constructor(
@@ -67,6 +67,12 @@ export abstract class AbstractAccessory {
     return this.accessory.getService(homebridgeService) ?
       this.accessory.getService(homebridgeService) :
       this.accessory.addService(homebridgeService, accessoryName);
+  }
+
+  getCharacteristic(homebridgeCharacteristic: Characteristic, homebridgeService: Service): Characteristic {
+    return homebridgeService.getCharacteristic(homebridgeCharacteristic) ?
+      homebridgeService.getCharacteristic(homebridgeCharacteristic) :
+      homebridgeService.addCharacteristic(homebridgeCharacteristic);
   }
 
   setInformationServices(): void {

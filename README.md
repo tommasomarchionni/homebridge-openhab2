@@ -1,4 +1,4 @@
-# homebridge-openHAB2 [TESTING]
+# homebridge-openHAB2
 
 [![npm package](https://nodei.co/npm-dl/homebridge-openhab2.png?months=2)](https://nodei.co/npm/homebridge-openhab2/)
 
@@ -82,6 +82,11 @@ A full list of supported accessory types can be found in the table below.
    <td>Switch, Dimmer, Color</td>
    <td>An accessory that can be turned off and on. (mapped to Lightbulb HomeKit type)</td>
  </tr>
+ <tr>
+    <td>Dimmable</td>
+    <td>Dimmer, Color</td>
+    <td>An accessory that can be dimmable. (mapped to Lightbulb HomeKit type)</td>
+  </tr>
 </table>
 
 See the sample below for example items:
@@ -94,6 +99,9 @@ Dimmer KitchenDimmer "Kitchen Dim" <light> (groupKitchen) [ "Switchable" ]
 Switch KitchenLight "Kitchen Light" <light> (groupKitchen) [ "Lighting" ]
 Color KitchenRGB "Kitchen RGB" <light> (groupKitchen) [ "Lighting" ]
 Dimmer KitchenDimmer "Kitchen Dim" <light> (groupKitchen) [ "Lighting" ]
+
+Color KitchenRGB "Kitchen RGB" <light> (groupKitchen) [ "Dimmable" ]
+Dimmer KitchenDimmer "Kitchen Dim" <light> (groupKitchen) [ "Dimmable" ]
 
 ```
 
@@ -115,3 +123,8 @@ Version 0.0.5
 + Added Lighting tag mapped to Lightbulb HomeKit type.
 + Updated README.
 + Added automatic deploy to npm for tagged version.
+
+Version 0.0.6
++ Added Dimmable tag mapped to Lightbulb HomeKit type.
++ Updated README.
++ Refactor contexts in accessories.

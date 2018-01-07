@@ -7,10 +7,10 @@ export class LightbulbAccessory extends SwitchAccessory {
   setOtherServices() {
     this.otherService = this.getService(this.hapService.Lightbulb, this.displayName);
 
-    this.otherService.getCharacteristic(this.hapCharacteristic.On)
-      .on('set', this.setItemState.bind(this))
-      .on('get', this.getItemState.bind(this))
-      .setValue(this.state === 'ON');
+    this.getCharacteristic(this.hapCharacteristic.On, this.otherService)
+      .on('set', this.setItemPowerState.bind(this))
+      .on('get', this.getItemPowerState.bind(this))
+      .setValue(this.state === 'ON', () => {}, 'init');
   };
 
   static isValid(device) {

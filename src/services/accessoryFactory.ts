@@ -2,6 +2,7 @@
 
 import { SwitchAccessory } from '../accessories/switchAccessory';
 import { LightbulbAccessory } from '../accessories/lightbulbAccessory';
+import { DimmerAccessory } from '../accessories/dimmerAccessory';
 import { OpenHAB2DeviceInterface } from '../models/platform/openHAB2DeviceInterface';
 import { OpenHAB2Platform } from '../platform/openHAB2Platform';
 
@@ -9,7 +10,8 @@ export class AccessoryFactory {
 
   static accessoryTypes = {
     Switchable: SwitchAccessory,
-    Lighting: LightbulbAccessory
+    Lighting: LightbulbAccessory,
+    Dimmable: DimmerAccessory
   };
 
   static isValid(device: OpenHAB2DeviceInterface): boolean {

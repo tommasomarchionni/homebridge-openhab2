@@ -81,6 +81,7 @@ export class OpenHAB2Client {
     return new Promise((resolve, reject) => {
       const url = `http://${this.host}:${this.port}/rest/items/${ID}`;
       request({
+        headers: {'Content-Type': 'text/plain'},
         url: url,
         body: action,
         method: 'post'
