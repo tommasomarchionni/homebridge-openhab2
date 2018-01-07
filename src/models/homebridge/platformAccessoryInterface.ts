@@ -10,6 +10,7 @@ export interface PlatformAccessoryInterface {
   services: Object[];     //
   reachable: boolean;
   context: any;
+  reviewed: boolean;
   addService(serviceType: Service, serviceName: string);
   on(eventName: string, Function);
   new (displayName: string, UUID: string): PlatformAccessoryInterface;

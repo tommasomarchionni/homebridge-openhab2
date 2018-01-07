@@ -19,7 +19,7 @@ export class OpenHAB2Mock {
       label: "Kitchen Light",
       category: "light",
       tags: [
-        "Lighting"
+        "Switchable"
       ],
       groupNames: [
         "Kitchen",

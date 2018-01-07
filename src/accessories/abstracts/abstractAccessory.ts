@@ -59,6 +59,10 @@ export abstract class AbstractAccessory {
 
   abstract setOtherServices(): void;
 
+  static isValid(device): boolean {
+    return false;
+  }
+
   getService(homebridgeService: Service, accessoryName?: string): Service {
     return this.accessory.getService(homebridgeService) ?
       this.accessory.getService(homebridgeService) :

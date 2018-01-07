@@ -23,7 +23,7 @@ const mockedOpenHAB2 = new OpenHAB2Mock(config.platforms[0].port, config.platfor
 // Vars for mocked homebridge and accessory
 let homebridge, mockedAccessory;
 
-describe("openHAB2 Services", () => {
+describe("Sse", () => {
 
   beforeEach(function(){
     mockedOpenHAB2.reset();
@@ -41,60 +41,63 @@ describe("openHAB2 Services", () => {
     plugin(homebridge);
   });
 
-  describe("Sse", () => {
-    it("should update accessory state", (done) => {
-      homebridge.platform.didFinishLaunching()
-        .then(() => {
-          let device = homebridge.platform.accessories.get('Kitchen_Light').openHABAccessory;
-          expect(device.state).to.equal('ON');
-          request.put({
-            headers: {'content-type' : 'text/plain'},
-            url:     `http://localhost:${mockedOpenHAB2.port}/rest/items/Kitchen_Light`,
-            body:    'OFF'
-          }, (error, response, body) => {
-            setTimeout(() => {
-              device = homebridge.platform.accessories.get('Kitchen_Light').openHABAccessory;
-              expect(device.state).to.equal('OFF');
-              done()
-            }, 500)
-          });
-        })
-    });
-    it("should correctly add event listener", (done) => {
-      const sse = new Sse(homebridge.platform, homebridge.platform.service, homebridge.platform.characteristic);
-      homebridge.platform.openHAB2Client
-        .getSitemapEventsUrl()
-        .then((url) => {
-          sse.addEventListener(url);
-          expect(sse.es).to.be.an.instanceof(EventSource);
-          done()
-        })
-    });
-    it("should correctly manage value", (done) => {
-      homebridge.platform.didFinishLaunching()
-        .then(() => {
-          const sse = new Sse(homebridge.platform, homebridge.platform.service, homebridge.platform.characteristic);
-          let device = {
-            state: 'OFF',
-            type: 'Switch',
-            name: 'Kitchen_Light',
-            label: 'Kitchen Light',
-            category: 'light',
-            tags: [ 'Lighting' ],
-            groupNames: [ 'Kitchen', 'Lights' ]
-          };
-          sse.manageValue(device).then(() => {
-            let accessory = <SwitchAccessory>homebridge.platform.accessories.get(device.name).openHABAccessory;
-            expect(accessory.state).to.equal(device.state);
-            device.state = "ON";
-            sse.manageValue(device).then(() => {
-              accessory = <SwitchAccessory>homebridge.platform.accessories.get(device.name).openHABAccessory;
-              expect(accessory.state).to.equal(device.state);
-              done();
-            });
-          })
+  it("should update accessory state", (done) => {
+    homebridge.platform.didFinishLaunching()
+      .then(() => {
+        let device = homebridge.platform.accessories.get('Kitchen_Light').openHABAccessory;
+        expect(device.state).to.equal('ON');
+        request.put({
+          headers: {'content-type' : 'text/plain'},
+          url:     `http://localhost:${mockedOpenHAB2.port}/rest/items/Kitchen_Light`,
+          body:    'OFF'
+        }, (error, response, body) => {
+          setTimeout(() => {
+            device = homebridge.platform.accessories.get('Kitchen_Light').openHABAccessory;
+            expect(device.state).to.equal('OFF');
+            done()
+          }, 500)
         });
-    })
+      })
+      .catch(error => done(error))
+  });
+
+  it("should correctly add event listener", (done) => {
+    const sse = new Sse(homebridge.platform, homebridge.platform.service, homebridge.platform.characteristic);
+    homebridge.platform.openHAB2Client
+      .getSitemapEventsUrl()
+      .then((url) => {
+        sse.addEventListener(url);
+        expect(sse.es).to.be.an.instanceof(EventSource);
+        done()
+      })
+      .catch(error => done(error))
+  });
+
+  it("should correctly manage value", (done) => {
+    homebridge.platform.didFinishLaunching()
+      .then(() => {
+        const sse = new Sse(homebridge.platform, homebridge.platform.service, homebridge.platform.characteristic);
+        let device = {
+          state: 'OFF',
+          type: 'Switch',
+          name: 'Kitchen_Light',
+          label: 'Kitchen Light',
+          category: 'light',
+          tags: [ 'Switchable' ],
+          groupNames: [ 'Kitchen', 'Lights' ]
+        };
+        sse.manageValue(device).then(() => {
+          let accessory = <SwitchAccessory>homebridge.platform.accessories.get(device.name).openHABAccessory;
+          expect(accessory.state).to.equal(device.state);
+          device.state = "ON";
+          sse.manageValue(device).then(() => {
+            accessory = <SwitchAccessory>homebridge.platform.accessories.get(device.name).openHABAccessory;
+            expect(accessory.state).to.equal(device.state);
+            done();
+          }).catch(error => done(error));
+        }).catch(error => done(error));
+      })
+      .catch(error => done(error));
   });
 
   afterEach(function(done){

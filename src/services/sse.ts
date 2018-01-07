@@ -54,7 +54,7 @@ export class Sse {
     this.es.addEventListener('event', (event) => {
       try {
         const change = <OpenHAB2EventInterface>JSON.parse(event.data);
-        this.manageValue(change.item);
+        this.manageValue(change.item).catch(e => this.es.onerror(e))
       } catch (e) {
         this.es.onerror(e);
       }
@@ -62,7 +62,7 @@ export class Sse {
 
     this.es.onerror = (err) => {
       if (err) {
-        this.platform.log('Error fetching updates: ', err);
+        this.platform.log('SSE - Error fetching updates:', err);
       }
     };
   }
@@ -73,6 +73,6 @@ export class Sse {
     if (accessory && accessory.openHABAccessory) {
       return accessory.openHABAccessory.updateCharacteristics(device.state)
     }
-    return Promise.reject('accessory not found');
+    return Promise.reject(`${device.name} is not correctly tagged or is not supported.`);
   }
 }

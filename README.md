@@ -58,7 +58,34 @@ Fields:
 * "port" - Port of the openHAB2 server
 * "sitemap" - Sitemap name of your openHAB2 server
 
-Now are enabled only switch items.
+## Item Configuration (home.items)
+
+This plugins uses the same logic for items configuration of [HomeKit Add-on for openHAB2](https://github.com/openhab/openhab2-addons/tree/master/addons/io/org.openhab.io.homekit#item-configuration).
+
+You will need to tag your openHAB items in order to view in HomeKit.
+
+A full list of supported accessory types can be found in the table below.
+
+<table>
+ <tr>
+  <td><b>Tag</b></td>
+  <td><b>Supported Types</b></td>
+  <td><b>Description</b></td>
+ </tr>
+ <tr>
+  <td>Switchable</td>
+  <td>Switch, Dimmer, Color</td>
+  <td>An accessory that can be turned off and on.</td>
+ </tr>
+</table>
+
+See the sample below for example items:
+
+```
+Switch KitchenLight "Kitchen Light" <light> (groupKitchen) [ "Switchable" ]
+Color KitchenRGB "Kitchen RGB" <light> (groupKitchen) [ "Switchable" ]
+Dimmer KitchenDimmer "Kitchen Dim" <light> (groupKitchen) [ "Switchable" ]
+```
 
 ## Release notes
 Version 0.0.1
@@ -69,3 +96,7 @@ Version 0.0.2
 
 Version 0.0.3
 + Update Tests.
+
+Version 0.0.4
++ Update Tests.
++ Changed logic to include accessory, now you should tag items according to the table of supported items above.

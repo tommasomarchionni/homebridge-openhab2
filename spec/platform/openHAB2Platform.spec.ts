@@ -91,7 +91,7 @@ describe("openHAB2 Platform", () => {
       homebridge.platform.didFinishLaunching().then(() => {
         expect(homebridge.platform.accessories.size).to.equal(1);
         done();
-      })
+      }).catch(error => done(error))
     });
   });
 
@@ -116,7 +116,7 @@ describe("openHAB2 Platform", () => {
             expect(homebridge.platform.accessories.size).to.equal(1);
             done();
           }
-        });
+        }).catch(error => done(error));
     });
   });
 
