@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "mocha --exit -r ts-node/register spec/**.spec.ts spec/**/**.spec.ts",
-    "prepare": "tsc",
+    "prepublishOnly": "tsc -p ./ --outDir dist/",
     "start": "echo \"Error: configure and run homebridge to start\" && exit 1"
   },
   "engines": {
@@ -25,7 +25,6 @@
     "Siri"
   ],
   "dependencies": {
-    "atmosphere.js": "^2.3.3",
     "chai-as-promised": "^7.1.1",
     "eventsource": "^1.0.5",
     "hap-nodejs": "0.4.36",
@@ -35,6 +34,7 @@
     "ts-deferred": "^1.0.4"
   },
   "devDependencies": {
+    "@types/node": "^8.5.7",
     "@types/chai": "^4.0.10",
     "@types/mocha": "^2.2.45",
     "body-parser": "^1.18.2",
