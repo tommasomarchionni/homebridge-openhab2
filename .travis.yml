@@ -1,18 +1,26 @@
 language: node_js
 node_js:
-  - "node"
-  - "lts/*"
-  - "8"
-  - "7"
+- node
+- lts/*
+- '8'
+- '7'
 before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get install -y libnss-mdns libavahi-compat-libdnssd-dev
+- sudo apt-get -qq update
+- sudo apt-get install -y libnss-mdns libavahi-compat-libdnssd-dev
 cache:
   directories:
-    - "node_modules"  
+  - node_modules
 before_script:
-  - npm install
+- npm install
 script:
-  - npm test
+- npm test
 notifications:
   email: false
+deploy:
+  provider: npm
+  email: tommaso.marchionni@gmail.com
+  api_key:
+    secure: U1R1ek+aGLYDZIY62HnVRtcwh0l9skrWcEaUjyyHFj6v3xva05sWuF465eL+QsB0Ye14pWPeBZF4028QRO5mgLs/FYNOPtJqNAAXxhv9oRBNuWXlYcGBEmQTPrMRw6GkgSSSX6QzgbI3ZRDi0sI4wSHK4Zh5p4Dq5uz4J6tBsXtkMicogkqCoP8PvGFscTiXMVEGi5YY/5dq9Lt6tQX8I4nCpKkyPiTDgir6e4vGJ0euXWpPHy6+Q8Akh/wmF5fsd0llMn0CzT2kZ1/98Xg09PsYIUhlutcXumgL5OQhxex1133AKSsf/jTLwLnXz74IDa20WMZoN3Idfi50A39DuVwcuUxHp8AxJXySQ2eqpnDMJ+teFLgh3Ine8gInEVmxgDpL1fAd2a2LLWsbGloyokqkSXCO9/ujmmnwbSgVBYuhzeCG5UYvM2nE8gMb6QvJiFzcIgr95wMjLIBnX0QREq5qkclsRVKHDVeCGCVHQRnhdL/1BDhMRx9QHuAX3UEutVeNdXxkdhGKhZh+57TyR4iUDoXvGGX72f0ay4hBPmFgqkOCx7OGDkTCrZHwWWs/MWdQiyfmRcI40K6bde71gf5Cf8d4F0sI5V81f6p4B6/Z6BM6NrB8vEfmdjBEkYOt56ZiXfwXQdM37O/b8DBKKxFKuesyt7PGORS5KS1FhL8=
+  on:
+    tags: true
+    repo: tommasomarchionni/homebridge-openhab2

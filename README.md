@@ -75,7 +75,12 @@ A full list of supported accessory types can be found in the table below.
  <tr>
   <td>Switchable</td>
   <td>Switch, Dimmer, Color</td>
-  <td>An accessory that can be turned off and on.</td>
+  <td>An accessory that can be turned off and on. (mapped to Switch HomeKit type)</td>
+ </tr>
+ <tr>
+   <td>Lighting</td>
+   <td>Switch, Dimmer, Color</td>
+   <td>An accessory that can be turned off and on. (mapped to Lightbulb HomeKit type)</td>
  </tr>
 </table>
 
@@ -85,6 +90,11 @@ See the sample below for example items:
 Switch KitchenLight "Kitchen Light" <light> (groupKitchen) [ "Switchable" ]
 Color KitchenRGB "Kitchen RGB" <light> (groupKitchen) [ "Switchable" ]
 Dimmer KitchenDimmer "Kitchen Dim" <light> (groupKitchen) [ "Switchable" ]
+
+Switch KitchenLight "Kitchen Light" <light> (groupKitchen) [ "Lighting" ]
+Color KitchenRGB "Kitchen RGB" <light> (groupKitchen) [ "Lighting" ]
+Dimmer KitchenDimmer "Kitchen Dim" <light> (groupKitchen) [ "Lighting" ]
+
 ```
 
 ## Release notes
@@ -100,3 +110,8 @@ Version 0.0.3
 Version 0.0.4
 + Update Tests.
 + Changed logic to include accessory, now you should tag items according to the table of supported items above.
+
+Version 0.0.5
++ Added Lighting tag mapped to Lightbulb HomeKit type.
++ Updated README.
++ Added automatic deploy to npm for tagged version.
