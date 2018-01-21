@@ -87,6 +87,16 @@ A full list of supported accessory types can be found in the table below.
     <td>Dimmer, Color</td>
     <td>An accessory that can be dimmable. (mapped to Lightbulb HomeKit type)</td>
   </tr>
+  <tr>
+    <td>WindowCovering</td>
+    <td>Rollershutter</td>
+    <td>A roller shutter. (mapped to WindowCovering HomeKit type)</td>
+  </tr>
+  <tr>
+    <td>ReverseWindowCovering</td>
+    <td>Rollershutter</td>
+    <td>A reverse roller shutter. (mapped to WindowCovering HomeKit type)</td>
+  </tr>
 </table>
 
 See the sample below for example items:
@@ -131,3 +141,7 @@ Version 0.0.6
 
 Version 0.0.8
 + Updated deploy to npm.
+
+Version 0.0.9
++ Added WindowCovering tag mapped to Window Covering HomeKit type.
++ Added ReverseWindowCovering tag mapped to Window Covering HomeKit type.

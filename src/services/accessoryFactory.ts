@@ -5,13 +5,17 @@ import { LightbulbAccessory } from '../accessories/lightbulbAccessory';
 import { DimmerAccessory } from '../accessories/dimmerAccessory';
 import { OpenHAB2DeviceInterface } from '../models/platform/openHAB2DeviceInterface';
 import { OpenHAB2Platform } from '../platform/openHAB2Platform';
+import { RollershutterAccessory } from '../accessories/rollershutterAccessory';
+import { ReverseRollershutterAccessory } from '../accessories/reverseRollershutterAccessory';
 
 export class AccessoryFactory {
 
   static accessoryTypes = {
     Switchable: SwitchAccessory,
     Lighting: LightbulbAccessory,
-    Dimmable: DimmerAccessory
+    Dimmable: DimmerAccessory,
+    WindowCovering: RollershutterAccessory,
+    ReverseWindowCovering: ReverseRollershutterAccessory
   };
 
   static isValid(device: OpenHAB2DeviceInterface): boolean {
