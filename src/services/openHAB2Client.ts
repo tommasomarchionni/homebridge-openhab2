@@ -89,7 +89,7 @@ export class OpenHAB2Client {
         if (!err && (response.statusCode == 200 || response.statusCode == 202))
           resolve(response);
         else
-          reject(err);
+          reject(response.body ? response.body : err);
       });
     });
   }

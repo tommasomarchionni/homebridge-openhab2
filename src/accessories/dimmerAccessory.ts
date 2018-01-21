@@ -31,7 +31,7 @@ export class DimmerAccessory extends AbstractAccessory {
 
       let characteristicBrightnessDeferred: Deferred<string> = new Deferred<string>();
       let characteristicOnDeferred: Deferred<string> = new Deferred<string>();
-      let characteristicsUpdated : [Promise<string>,Promise<string>] = [characteristicBrightnessDeferred.promise, characteristicOnDeferred.promise]
+      let characteristicsUpdated : [Promise<string>,Promise<string>] = [characteristicBrightnessDeferred.promise, characteristicOnDeferred.promise];
 
       this.platform.log(`OpenHAB2 SSE - message from <${this.name}>: ${message}`);
 

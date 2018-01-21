@@ -33,10 +33,10 @@ export class SwitchAccessory extends AbstractAccessory {
   };
 
   getItemPowerState(callback) {
-    this.platform.log(`iOS - request power state from ${this.displayName}`);
+    this.platform.log(`iOS - request power state from <${this.name}>`);
     this.platform.openHAB2Client.getDeviceProperties(this.name)
       .then((device: OpenHAB2DeviceInterface) => {
-        this.platform.log(`OpenHAB2 HTTP - response from ${this.displayName}: ${device.state}`);
+        this.platform.log(`OpenHAB2 HTTP - response from <${this.name}>: ${device.state}`);
 
         // Handles Color item casted to Switchable (ex. 347.154924,92.558087,100)
         if (device.state.split(',').length === 3) {
@@ -50,7 +50,7 @@ export class SwitchAccessory extends AbstractAccessory {
         callback(undefined, device.state === 'ON');
       })
       .catch((err) => {
-        this.platform.log(`OpenHAB2 HTTP - error from ${this.displayName}`, err);
+        this.platform.log(`OpenHAB2 HTTP - error from <${this.name}>`, err);
         callback('');
       });
   };
@@ -68,13 +68,13 @@ export class SwitchAccessory extends AbstractAccessory {
       command = value ? '100' : '0';
     }
 
-    this.platform.log(`iOS - send message to ${this.displayName}: ${command}`);
+    this.platform.log(`iOS - send message to <${this.name}>: ${command}`);
     this.platform.openHAB2Client.executeDeviceAction(this.name, command)
       .then(() => {
-        this.platform.log(`OpenHAB2 HTTP - response from ${this.displayName}: completed.`);
+        this.platform.log(`OpenHAB2 HTTP - response from <${this.name}>: completed.`);
       })
       .catch((err) => {
-        this.platform.log(`OpenHAB2 HTTP - error from ${this.displayName}`, err);
+        this.platform.log(`OpenHAB2 HTTP - error from <${this.name}>:`, err);
       })
       .then(() => callback());
   };
