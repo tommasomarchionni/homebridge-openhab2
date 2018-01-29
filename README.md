@@ -145,3 +145,6 @@ Version 0.0.8
 Version 0.0.9
 + Added WindowCovering tag mapped to Window Covering HomeKit type.
 + Added ReverseWindowCovering tag mapped to Window Covering HomeKit type.
+
+Version 0.0.10
++ Fix bug in dimmerAccessory that throw error with SSE.

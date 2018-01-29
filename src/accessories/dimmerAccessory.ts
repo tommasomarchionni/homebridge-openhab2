@@ -69,8 +69,8 @@ export class DimmerAccessory extends AbstractAccessory {
           this.updateItemState(value, 'Power', callback, context);
         } else {
           this.setItemBrightnessStateCalled = false;
+          callback();
         }
-        callback();
       }, 100);
     }
   }
@@ -117,6 +117,6 @@ export class DimmerAccessory extends AbstractAccessory {
       .catch((err) => {
         this.platform.log(`OpenHAB2 HTTP - error from <${this.name}>:`, err);
       })
-      .then(() => callback());
+      .then(() => callback(null));
   };
 }
