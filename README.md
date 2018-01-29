@@ -1,4 +1,4 @@
-# homebridge-openHAB2
+# homebridge-openHAB2 [![Build Status](https://travis-ci.org/tommasomarchionni/homebridge-openhab2.svg?branch=master)](https://travis-ci.org/tommasomarchionni/homebridge-openhab2)
 
 [![npm package](https://nodei.co/npm-dl/homebridge-openhab2.png?months=2)](https://nodei.co/npm/homebridge-openhab2/)
 
@@ -147,4 +147,7 @@ Version 0.0.9
 + Added ReverseWindowCovering tag mapped to Window Covering HomeKit type.
 
 Version 0.0.10
-+ Fix bug in dimmerAccessory that throw error with SSE.
++ Fix bug in dimmerAccessory that throws error with SSE.
+
+Version 0.0.11
++ Added build status in README.
