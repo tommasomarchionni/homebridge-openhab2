@@ -16,12 +16,12 @@ export class DimmerAccessory extends AbstractAccessory {
   setOtherServices() {
     this.otherService = this.getService(this.hapService.Lightbulb, this.displayName);
 
-    this.getCharacteristic(this.hapCharacteristic.On, this.otherService)
+    this.getCharacteristic(this.hapCharacteristic.On, this.getOtherService())
       .on('set', this.setItemPowerState.bind(this))
       .on('get', this.getItemPowerState.bind(this))
       .setValue(+this.state > 0, () => {}, 'init');
 
-    this.getCharacteristic(this.hapCharacteristic.Brightness, this.otherService)
+    this.getCharacteristic(this.hapCharacteristic.Brightness, this.getOtherService())
       .on('set', this.setItemBrightnessState.bind(this))
       .on('get', this.getItemBrightnessState.bind(this))
       .setValue(+this.state, () => {}, 'init');
@@ -37,13 +37,13 @@ export class DimmerAccessory extends AbstractAccessory {
 
       const brightness = +message;
 
-      this.getCharacteristic(this.hapCharacteristic.Brightness, this.otherService)
+      this.getCharacteristic(this.hapCharacteristic.Brightness, this.getOtherService())
         .setValue(brightness, () => {
           this.state = message;
           characteristicBrightnessDeferred.resolve(message);
         }, 'remote');
 
-      this.getCharacteristic(this.hapCharacteristic.On, this.otherService)
+      this.getCharacteristic(this.hapCharacteristic.On, this.getOtherService())
         .setValue(brightness > 0, () => {
           this.state = message;
           characteristicOnDeferred.resolve(message);

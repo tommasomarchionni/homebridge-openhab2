@@ -19,8 +19,8 @@ export abstract class AbstractAccessory {
   manufacturer = 'openHAB2';
   model = 'openHAB2BridgedAccessory';
   serialNumber = '<unknown>';
-  informationService: Service;
-  otherService: Service;
+  informationService?: Service;
+  otherService?: Service;
   device: OpenHAB2DeviceInterface;
   setInitialState = false;
   state: string;
@@ -50,6 +50,13 @@ export abstract class AbstractAccessory {
   //     this.log(newAccessory.displayName, 'Identify!!!');
   //     callback();
   //   });
+
+  getOtherService(): Service {
+    if (this.otherService)
+      return this.otherService
+    else
+      throw "getOtherService accessed too early; accessory not yet initialized"
+  }
 
   initAccessory() {
     this.setInitialState = true;

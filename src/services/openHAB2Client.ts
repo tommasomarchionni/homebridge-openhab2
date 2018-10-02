@@ -8,8 +8,9 @@ export class OpenHAB2Client {
 
   host: string;
   port: string;
-  username: string;
-  password: string;
+  // TODO handle username and password
+  // username: string;
+  // password: string;
   sitemap: string;
   log: (...string) => void;
 
