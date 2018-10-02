@@ -9,7 +9,7 @@ export class SwitchAccessory extends AbstractAccessory {
   setOtherServices() {
     this.otherService = this.getService(this.hapService.Switch, this.displayName);
 
-    this.getCharacteristic(this.hapCharacteristic.On, this.otherService)
+    this.getCharacteristic(this.hapCharacteristic.On, this.getOtherService())
       .on('set', this.setItemPowerState.bind(this))
       .on('get', this.getItemPowerState.bind(this))
       .setValue(this.state === 'ON', () => {}, 'init');
@@ -23,7 +23,7 @@ export class SwitchAccessory extends AbstractAccessory {
     let characteristicOnDeferred: Deferred<string> = new Deferred<string>();
     let characteristicsUpdated : [Promise<string>] = [characteristicOnDeferred.promise];
 
-    this.getCharacteristic(this.hapCharacteristic.On, this.otherService)
+    this.getCharacteristic(this.hapCharacteristic.On, this.getOtherService())
       .setValue(message === 'ON', () => {
         this.state = message;
         characteristicOnDeferred.resolve(message);

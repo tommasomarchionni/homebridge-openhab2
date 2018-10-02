@@ -27,16 +27,16 @@ export class RollershutterAccessory extends AbstractAccessory {
   setOtherServices() {
     this.otherService = this.getService(this.hapService.WindowCovering, this.displayName);
 
-    this.getCharacteristic(this.hapCharacteristic.CurrentPosition, this.otherService)
+    this.getCharacteristic(this.hapCharacteristic.CurrentPosition, this.getOtherService())
       .on('get', this.getItemCurrentPosition.bind(this))
       .setValue(this.currentPosition);
 
-    this.getCharacteristic(this.hapCharacteristic.TargetPosition, this.otherService)
+    this.getCharacteristic(this.hapCharacteristic.TargetPosition, this.getOtherService())
       .on('set', this.setItemTargetPosition.bind(this))
       .on('get', this.getItemTargetPosition.bind(this))
       .setValue(this.currentPosition, () => {}, 'init');
 
-    this.getCharacteristic(this.hapCharacteristic.PositionState, this.otherService)
+    this.getCharacteristic(this.hapCharacteristic.PositionState, this.getOtherService())
       .on('get', this.getItemPositionState.bind(this))
       .setValue(this.positionState);
 
@@ -53,7 +53,7 @@ export class RollershutterAccessory extends AbstractAccessory {
     this.platform.log(`OpenHAB2 SSE - message from <${this.name}>: ${currentPosition}`);
 
     // Update current position in homekit
-    this.getCharacteristic(this.hapCharacteristic.CurrentPosition, this.otherService)
+    this.getCharacteristic(this.hapCharacteristic.CurrentPosition, this.getOtherService())
       .setValue(currentPosition, () => {
         this.currentPosition = currentPosition;
         characteristicCurrentPositionDeferred.resolve(message);
@@ -62,7 +62,7 @@ export class RollershutterAccessory extends AbstractAccessory {
     // Update position state in homekit
     if(this.targetPosition > this.currentPosition) {
 
-      this.getCharacteristic(this.hapCharacteristic.PositionState, this.otherService)
+      this.getCharacteristic(this.hapCharacteristic.PositionState, this.getOtherService())
         .setValue(this.hapCharacteristic.PositionState.DECREASING, () => {
           this.positionState = this.hapCharacteristic.PositionState.DECREASING;
           characteristicPositionStateDeferred.resolve(this.hapCharacteristic.PositionState.DECREASING);
@@ -70,7 +70,7 @@ export class RollershutterAccessory extends AbstractAccessory {
 
     } else if(this.targetPosition < this.currentPosition) {
 
-      this.getCharacteristic(this.hapCharacteristic.PositionState, this.otherService)
+      this.getCharacteristic(this.hapCharacteristic.PositionState, this.getOtherService())
         .setValue(this.hapCharacteristic.PositionState.INCREASING, () => {
           this.positionState = this.hapCharacteristic.PositionState.INCREASING;
           characteristicPositionStateDeferred.resolve(this.hapCharacteristic.PositionState.INCREASING);
@@ -78,14 +78,14 @@ export class RollershutterAccessory extends AbstractAccessory {
 
     } else if(this.targetPosition === this.currentPosition) {
 
-      this.getCharacteristic(this.hapCharacteristic.PositionState, this.otherService)
+      this.getCharacteristic(this.hapCharacteristic.PositionState, this.getOtherService())
         .setValue(this.hapCharacteristic.PositionState.STOPPED, () => {
           this.positionState = this.hapCharacteristic.PositionState.STOPPED;
           characteristicPositionStateDeferred.resolve(this.hapCharacteristic.PositionState.STOPPED);
         });
 
       // Reset target position to current position
-      this.getCharacteristic(this.hapCharacteristic.TargetPosition, this.otherService)
+      this.getCharacteristic(this.hapCharacteristic.TargetPosition, this.getOtherService())
         .setValue(this.currentPosition, ()=> {}, 'remote');
 
     }
@@ -106,14 +106,14 @@ export class RollershutterAccessory extends AbstractAccessory {
     this.targetPosition = +value;
 
     if(this.targetPosition > this.currentPosition) {
-      this.getCharacteristic(this.hapCharacteristic.PositionState, this.otherService)
+      this.getCharacteristic(this.hapCharacteristic.PositionState, this.getOtherService())
         .setValue(this.hapCharacteristic.PositionState.DECREASING);
     } else if(this.targetPosition < this.currentPosition) {
-      this.getCharacteristic(this.hapCharacteristic.PositionState, this.otherService)
+      this.getCharacteristic(this.hapCharacteristic.PositionState, this.getOtherService())
         .setValue(this.hapCharacteristic.PositionState.INCREASING);
 
     } else if(this.targetPosition === this.currentPosition) {
-      this.getCharacteristic(this.hapCharacteristic.PositionState, this.otherService)
+      this.getCharacteristic(this.hapCharacteristic.PositionState, this.getOtherService())
         .setValue(this.hapCharacteristic.PositionState.STOPPED);
     }
 
@@ -189,7 +189,7 @@ export class RollershutterAccessory extends AbstractAccessory {
 
           // Reset target position to current position
           this.targetPosition = this.currentPosition;
-          this.getCharacteristic(this.hapCharacteristic.TargetPosition, this.otherService)
+          this.getCharacteristic(this.hapCharacteristic.TargetPosition, this.getOtherService())
             .setValue(this.targetPosition, ()=> {}, 'remote');
         }
 
