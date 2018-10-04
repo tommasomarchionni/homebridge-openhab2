@@ -2,6 +2,8 @@
 
 import { SwitchAccessory } from '../accessories/switchAccessory';
 import { LightbulbAccessory } from '../accessories/lightbulbAccessory';
+import { LeakSensorAccessory } from '../accessories/leakSensorAccessory';
+import { ValveAccessory } from '../accessories/valveAccessory';
 import { DimmerAccessory } from '../accessories/dimmerAccessory';
 import { OpenHAB2DeviceInterface } from '../models/platform/openHAB2DeviceInterface';
 import { OpenHAB2Platform } from '../platform/openHAB2Platform';
@@ -15,7 +17,9 @@ export class AccessoryFactory {
     Lighting: LightbulbAccessory,
     Dimmable: DimmerAccessory,
     WindowCovering: RollershutterAccessory,
-    ReverseWindowCovering: ReverseRollershutterAccessory
+    ReverseWindowCovering: ReverseRollershutterAccessory,
+    LeakSensor: LeakSensorAccessory,
+    Valve: ValveAccessory
   };
 
   static isValid(device: OpenHAB2DeviceInterface): boolean {

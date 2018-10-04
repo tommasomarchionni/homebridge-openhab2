@@ -97,6 +97,16 @@ A full list of supported accessory types can be found in the table below.
     <td>Rollershutter</td>
     <td>A reverse roller shutter. (mapped to WindowCovering HomeKit type)</td>
   </tr>
+  <tr>
+    <td>LeakSensor</td>
+    <td>Switch</td>
+    <td>A water leak sensor (mapped to LeakSensor HomeKit type)</td>
+  </tr>
+  <tr>
+    <td>Valve</td>
+    <td>Switch</td>
+    <td>A water valve (mapped to Valve HomeKit type with Generic ValveType)</td>
+  </tr>
 </table>
 
 See the sample below for example items:
@@ -151,3 +161,7 @@ Version 0.0.10
 
 Version 0.0.11
 + Added build status in README.
+
+Version (unreleased)
++ Added Valve type
++ Added LeakSensor type
