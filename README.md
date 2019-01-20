@@ -107,6 +107,11 @@ A full list of supported accessory types can be found in the table below.
     <td>Switch</td>
     <td>A water valve (mapped to Valve HomeKit type with Generic ValveType)</td>
   </tr>
+  <tr>
+    <td>ContactSensor</td>
+    <td>Contact</td>
+    <td>A contact sensor (mapped to ContactSensor HomeKit type)</td>
+  </tr>  
 </table>
 
 See the sample below for example items:
@@ -165,3 +170,4 @@ Version 0.0.11
 Version (unreleased)
 + Added Valve type
 + Added LeakSensor type
++ Added ContactSensor type

@@ -9,6 +9,7 @@ import { OpenHAB2DeviceInterface } from '../models/platform/openHAB2DeviceInterf
 import { OpenHAB2Platform } from '../platform/openHAB2Platform';
 import { RollershutterAccessory } from '../accessories/rollershutterAccessory';
 import { ReverseRollershutterAccessory } from '../accessories/reverseRollershutterAccessory';
+import { ContactAccessory } from '../accessories/contactAccessory';
 
 export class AccessoryFactory {
 
@@ -19,7 +20,8 @@ export class AccessoryFactory {
     WindowCovering: RollershutterAccessory,
     ReverseWindowCovering: ReverseRollershutterAccessory,
     LeakSensor: LeakSensorAccessory,
-    Valve: ValveAccessory
+    Valve: ValveAccessory,
+    ContactSensor: ContactAccessory
   };
 
   static isValid(device: OpenHAB2DeviceInterface): boolean {
